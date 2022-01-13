@@ -8,9 +8,7 @@
  */
 void add(stack_t **node, unsigned int line)
 {
-	stack_t *new;
-
-	if (*node == NULL || (*node)->next = NULL) /*if the stack contains less than two elements*/
+	if (*node == NULL || (*node)->next == NULL) /*if the stack contains less than two elements*/
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", line);
 		freedom(node);
@@ -19,9 +17,8 @@ void add(stack_t **node, unsigned int line)
 	else
 	{
 		*node = (*node)->next;
-		(*node)->n = (*node)-> + (*node)->prev->n;
+		(*node)->n = (*node)->n + (*node)->prev->n;
 		(*node)->prev = NULL;
-		free(new);
 	}
 }
 
