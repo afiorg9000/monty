@@ -98,10 +98,9 @@ void pop(stack_t **node, unsigned int line)
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line);
 		exit(EXIT_FAILURE);
 	}
-	if (new->next)
-		new->next->prev = new->prev;
-	*node = new->next;
-	free(new);
+	new = new->next;
+	free(*node);
+	*node = new;
 }
 
 /**
@@ -114,7 +113,7 @@ void swap(stack_t **node, unsigned int line)
 {
 	int new;
 
-	if (*node == NULL)
+	if (*node == NULL || (*node)->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't swap, stack too short\n", line);
 		freedom(node);
