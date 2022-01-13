@@ -61,7 +61,7 @@ void file_sweep(char *file);
 void (*get_op(char *opstring))(stack_t **stack, unsigned int line);
 void freedom(void);
 /*opcode protoypes*/
-void push(stack_t **node, unsigned int line_number, char *str);
+void push(stack_t **node, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_H */

@@ -42,13 +42,15 @@ void file_sweep(char *mfile)
 	global.file = fopen(mfile, "r");
 	if (global.file == NULL)/*Opens the monty file passed by the user*/
 	{
+		printf("1");
 		fprintf(stderr, "Error: Can't open file %s\n", mfile);
 		exit(EXIT_FAILURE);
 	}
 
-	while (getline(&global.string, &len, global.file) != -1)
+	while (getline(&global.string, &len, global.file) != EOF)
 	{
-		opcodes = strtok(global.string, "\t\n");
+		opcodes = strtok(global.string, " \t\n");
+		printf("%s\n", opcodes);
 		if (opcodes == NULL)
 		{
 			count++;
@@ -56,15 +58,8 @@ void file_sweep(char *mfile)
 		}
 		if (global.string[0] != '#')
 		{
-			if (strncmp(opcodes, "push", 4) == 0)
-			{
-				opcodes = strtok(NULL," \t\n");
-			}
-			else
-			{
-				global.line = count;
-				(*get_op(opcodes))(&global.stack, count);
-			}
+			global.line = count;
+			(*get_op(opcodes))(&global.stack, count);
 		}
 		count++;
 	}
@@ -79,21 +74,24 @@ void file_sweep(char *mfile)
 
 void (*get_op(char *opstring))(stack_t **stack, unsigned int line)
 {
-	int tmp;
+	int tmp = 0;
 
 	instruction_t opcodes[] = {
+		{"push", push},
 		{"pall", pall},
 		{NULL, NULL}
 	};
 
-	for (tmp = 0; opcodes[tmp].opcode; tmp++)
+	while (opcodes[tmp].opcode)
 	{
-		if (strcmp(opstring, opcodes[tmp].opcode)== 0)
+		if (strcmp(opstring, opcodes[tmp].opcode) == 0)
+		{
 			return(opcodes[tmp].f);
+		}
+		tmp++;
 	}
-	fprintf(stderr, "L%d: unknown instruction %s\n", global.line, global.string);
-	freedom();
-	return (NULL);
+			fprintf(stderr, "L%d: unknown instruction %s\n", global.line, global.string);
+			exit(EXIT_FAILURE);
 }
 
 /**
@@ -109,7 +107,7 @@ void freedom(void)
 		tmp = global.stack;
 		global.stack = (global.stack)->next;
 		free(tmp);/*frees a dlistint_t list.*/
-		
+
 		free(global.string);
 		fclose(global.file);
 	}

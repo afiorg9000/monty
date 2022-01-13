@@ -4,11 +4,13 @@
  * push - Pushes an item to the top of the stack
  * @str: string containing values stack items
  */
-void push(stack_t **node, unsigned int line_number, char *str)
+void push(stack_t **node, unsigned int line_number)
 {
+	char *str;
 	int idx;
 	stack_t *tmp = NULL;
 
+	str = malloc(12 * sizeof(char));
 	if (str == NULL)
 	{
 		fprintf(stderr, "L%u: usage: push integer\n", line_number);
