@@ -65,3 +65,20 @@ void pall(stack_t **node, unsigned int line)
 		tmp = tmp->next;
 	}
 }
+
+/**
+ * pint - prints the value at the top of the stack, followed by a new line.
+ * @node: linked list.
+ * @line: line count.
+ * Return: void
+ */
+
+void pint (stack_t **node, unsigned int line)
+{
+	if (*node == NULL)
+	{
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line);
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", (*node)->n);
+}
