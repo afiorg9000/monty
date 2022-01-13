@@ -15,6 +15,9 @@ int get_op(char *opstring, stack_t **stack, unsigned int line)
 		{"pall", pall},
 		{"pint", pint},
 		{"pop", pop},
+		{"swap", swap},
+		{"add", add},
+		{"nop", nop},
 		{NULL, NULL},
 	};
 

@@ -91,10 +91,33 @@ void pint (stack_t **node, unsigned int line)
  */
 void pop (stack_t **node, unsigned int line)
 {
-	if (node == NULL)
+	if (*node == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line);
 		exit(EXIT_FAILURE);
 	}
 }
 
+/**
+ * swap - swaps the top two elements of the stack.
+ * @node: linked list.
+ * @line: line count.
+ * Return: void
+ */
+void swap(stack_t **node, unsigned int line)
+{
+	int new;
+
+	if (*node == NULL)
+	{
+		fprintf(stderr, "L%u: can't swap, stack too short\n", line);
+		freedom(node);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		new = (*node)->n;
+		(*node)->n = (*node)->next->n;
+		(*node)->next->n = new;
+	}
+}
