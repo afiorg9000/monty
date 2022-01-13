@@ -9,7 +9,7 @@
  */
 void push(stack_t **node, unsigned int line, char *str)
 {
-	stack_t *tmp = NULL;
+	stack_t *new = NULL;
 	int idx;
 
 	if (str == NULL)
@@ -27,21 +27,21 @@ void push(stack_t **node, unsigned int line, char *str)
 			exit(EXIT_FAILURE);
 		}
 	}
-	tmp = malloc(sizeof(node));
-	if (tmp == NULL)
+	new = malloc(sizeof(node));
+	if (new == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	tmp->n = atoi(str);
-	tmp->next = NULL;
-	tmp->prev = NULL;
+	new->n = atoi(str);
+	new->next = NULL;
+	new->prev = NULL;
 	if (*node)
 	{
-		tmp->next = *node;
-		(*node)->prev = tmp;
+		new->next = *node;
+		(*node)->prev = new;
 	}
-	*node = tmp;
+	*node = new;
 }
 
 /**
@@ -52,17 +52,17 @@ void push(stack_t **node, unsigned int line, char *str)
  */
 void pall(stack_t **node, unsigned int line)
 {
-	stack_t *tmp = *node;
+	stack_t *new = *node;
 	(void)line;
 
 	if (node == NULL || *node == NULL)
 	{
 		return;
 	}
-	while (tmp != NULL)
+	while (new != NULL)
 	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		printf("%d\n", new->n);
+		new = new->next;
 	}
 }
 
@@ -82,3 +82,19 @@ void pint (stack_t **node, unsigned int line)
 	}
 	printf("%d\n", (*node)->n);
 }
+
+/**
+ * pop -  removes the top element of the stack.
+ * @node: linked list.
+ * @line: line count.
+ * Return: void.
+ */
+void pop (stack_t **node, unsigned int line)
+{
+	if (node == NULL)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", line);
+		exit(EXIT_FAILURE);
+	}
+}
+
