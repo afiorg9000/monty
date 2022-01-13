@@ -91,11 +91,17 @@ void pint (stack_t **node, unsigned int line)
  */
 void pop(stack_t **node, unsigned int line)
 {
+	stack_t *new = *node;
+
 	if (*node == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line);
 		exit(EXIT_FAILURE);
 	}
+	if (*new->next)
+		new->next->prev = new->prev;
+	*node = new->next;
+	free(new);
 }
 
 /**

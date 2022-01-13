@@ -1,0 +1,7 @@
+#!/bin/bash
+gcc -g -Wall -Werror -Wextra -pedantic -std=c90 *.c -o monty
+./monty *.m | cat -e
+echo "
+"
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./monty *.m
+
