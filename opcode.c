@@ -1,20 +1,20 @@
-#include "monty.h"
+ #include "monty.h"
 
 /**
- * push - Pushes an item to the top of the stack
+ * push - pushes an item to the top of the stack.
+ * @node: linked list
+ * @line: line count
  * @str: string containing values stack items
+ * Return: void or failure
  */
-void push(stack_t **node, unsigned int line_number)
+void push(stack_t **node, unsigned int line, char *str)
 {
-	char *str;
-	int idx;
 	stack_t *tmp = NULL;
+	int idx;
 
-	str = malloc(12 * sizeof(char));
 	if (str == NULL)
 	{
-		fprintf(stderr, "L%u: usage: push integer\n", line_number);
-		freedom();
+		fprintf(stderr, "L%d: usage: push integer\n", line);
 		exit(EXIT_FAILURE);
 	}
 	for (idx = 0; str[idx]; idx++)
@@ -23,11 +23,10 @@ void push(stack_t **node, unsigned int line_number)
 			continue;
 		if (isdigit(str[idx]) == 0)
 		{
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
+			fprintf(stderr, "L%d: usage: push integer\n", line);
 			exit(EXIT_FAILURE);
 		}
 	}
-
 	tmp = malloc(sizeof(node));
 	if (tmp == NULL)
 	{
@@ -37,38 +36,32 @@ void push(stack_t **node, unsigned int line_number)
 	tmp->n = atoi(str);
 	tmp->next = NULL;
 	tmp->prev = NULL;
-	if (*node == NULL)
-	{
-		tmp->next = *node;
-		*node = tmp;
-	}
-	else
+	if (*node)
 	{
 		tmp->next = *node;
 		(*node)->prev = tmp;
-		*node = tmp;
 	}
+	*node = tmp;
 }
 
 /**
- * pall - prints the value of all items on the stack.
- * @stack: double pointer to the head of the stack.
- * @line_number: the current line number being processed.
+ * pall - prints the value of all items on the stack
+ * @node: linked list
+ * @line: line count
+ * Return: void
  */
-void pall(stack_t **stack, unsigned int line_number)
+void pall(stack_t **node, unsigned int line)
 {
-	stack_t *tmp;
-	(void)line_number;
+	stack_t *tmp = *node;
+	(void)line;
 
-	if (*stack == NULL)
+	if (node == NULL || *node == NULL)
 	{
 		return;
 	}
-	tmp = *stack;
 	while (tmp != NULL)
 	{
 		printf("%d\n", tmp->n);
 		tmp = tmp->next;
 	}
 }
-

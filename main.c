@@ -1,114 +1,49 @@
 #include "monty.h"
-
-globalvar_t global = {NULL, 1, NULL, NULL};
-
 /**
- * main - monty bytecode interpreter.
- * Reads monty file and runs opcodes
+ * main - monty bytecode interpreter that reads monty file and runs opcodes.
  * @argc: number of arguments passed.
- * @argv: double pointer array which points to each argument passed to the program
+ * @argv: double pointer array that points to arguments passed.
  * Return: exit success
  */
-/*If no arguments are supplied, argc will be one, and if you pass one argument 
- * then argc is set at 2.*/
-
 int main(int argc, char **argv)
 {
+	char *tmp = NULL;
+	stack_t *node = NULL;
+	size_t len = 0;
+	FILE *file;
+
 	if (argc != 2)
-		/*If the user does not give any file or more than one argument to your program,
-		 * print the error message USAGE: monty file, followed by a new line,
-		 * and exit with the status EXIT_FAILURE*/
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	file_sweep(argv[1]);
-	return (0);
-}
 
-/**
- * file_sweep - sweeps the monty file line by line.
- */
-
-void file_sweep(char *mfile)
-{
-	char *opcodes = NULL;
-	size_t len = 0;
-	unsigned int count = 1;
-	/*If, for any reason, it’s not possible to open the file, 
-	 * print the error message Error: Can't open file <file>, 
-	 * followed by a new line, and exit with the status EXIT_FAILURE
-	 * where <file> is the name of the file*/
-	global.file = fopen(mfile, "r");
-	if (global.file == NULL)/*Opens the monty file passed by the user*/
+	file = fopen(argv[1], "r"); /*opens monty file*/
+	if (file == NULL)
 	{
-		printf("1");
-		fprintf(stderr, "Error: Can't open file %s\n", mfile);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-
-	while (getline(&global.string, &len, global.file) != EOF)
-	{
-		opcodes = strtok(global.string, " \t\n");
-		printf("%s\n", opcodes);
-		if (opcodes == NULL)
-		{
-			count++;
-			continue;
-		}
-		if (global.string[0] != '#')
-		{
-			global.line = count;
-			(*get_op(opcodes))(&global.stack, count);
-		}
-		count++;
-	}
-	freedom();
+	else
+		exec_op(node, tmp, len, file);
+	return (EXIT_SUCCESS);
 }
 
 /**
- * get_op - struct to compare input to a list of cmds and then execute if validalls the corresponding opcode function to their string.						 * @opcode: the opcode to run.
- * @stack:our linked list.
- * @line: line count of instruction.
+ * freedom - free stack
+ * @node: linked list
+ *
+ *
+ * Return - void
  */
-
-void (*get_op(char *opstring))(stack_t **stack, unsigned int line)
-{
-	int tmp = 0;
-
-	instruction_t opcodes[] = {
-		{"push", push},
-		{"pall", pall},
-		{NULL, NULL}
-	};
-
-	while (opcodes[tmp].opcode)
-	{
-		if (strcmp(opstring, opcodes[tmp].opcode) == 0)
-		{
-			return(opcodes[tmp].f);
-		}
-		tmp++;
-	}
-			fprintf(stderr, "L%d: unknown instruction %s\n", global.line, global.string);
-			exit(EXIT_FAILURE);
-}
-
-/**
- * free - frees stack
- */
-
-void freedom(void)
+void freedom(stack_t **node)
 {
 	stack_t *tmp = NULL;
 
-	while (global.stack)
+	while (*node)
 	{
-		tmp = global.stack;
-		global.stack = (global.stack)->next;
-		free(tmp);/*frees a dlistint_t list.*/
-
-		free(global.string);
-		fclose(global.file);
+		tmp = *node;
+		*node = (*node)->next;
+		free(tmp);
 	}
 }
