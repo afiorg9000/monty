@@ -13,6 +13,7 @@ int get_op(char *opstring, stack_t **stack, unsigned int line)
 
 	instruction_t opcodes[] = {
 		{"pall", pall},
+		{"pint", pint},
 		{NULL, NULL},
 	};
 
