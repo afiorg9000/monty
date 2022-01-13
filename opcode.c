@@ -89,7 +89,7 @@ void pint (stack_t **node, unsigned int line)
  * @line: line count.
  * Return: void.
  */
-void pop (stack_t **node, unsigned int line)
+void pop(stack_t **node, unsigned int line)
 {
 	if (*node == NULL)
 	{
