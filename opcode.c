@@ -98,7 +98,7 @@ void pop(stack_t **node, unsigned int line)
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line);
 		exit(EXIT_FAILURE);
 	}
-	if (*new->next)
+	if (new->next)
 		new->next->prev = new->prev;
 	*node = new->next;
 	free(new);
