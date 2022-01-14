@@ -16,10 +16,10 @@ void add(stack_t **node, unsigned int line)
 	}
 	else
 	{
-		*node = (*node)->next;
-		(*node)->n = (*node)->n + (*node)->prev->n;
+		(*node)->next->n += (*node)->n;
+		(*node) = (*node)->next;
+		free((*node)->prev);
 		(*node)->prev = NULL;
-		freedom(node);
 	}
 }
 
