@@ -19,7 +19,7 @@ void add(stack_t **node, unsigned int line)
 		*node = (*node)->next;
 		(*node)->n = (*node)->n + (*node)->prev->n;
 		(*node)->prev = NULL;
-		free(*node);
+		freedom(*node);
 	}
 }
 
